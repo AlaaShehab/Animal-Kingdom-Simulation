@@ -1,0 +1,18 @@
+public class Adult extends PopulationState {
+    @Override
+    public void handleBeingAdult(Kingdom population) {
+        //TODO
+        /*
+        increase number of adults (males/females)
+        if opposite gender count > 0 call handleGettingMarried
+         */
+    }
+
+    @Override
+    public void handleGettingMarried(Kingdom population) {
+        //TODO
+        /*
+        set state to Married and decrease opposite gender count by 1
+         */
+    }
+}
