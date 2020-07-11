@@ -6,6 +6,9 @@ public class MonkeyKingdom implements Kingdom {
     private static int adultMales;
     private static int adultFemales;
 
+    private static float deathProbability;
+    private static float reproductionProbability;
+
     public void Kingdom () {
         //TODO
         /*
