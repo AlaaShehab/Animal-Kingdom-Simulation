@@ -1,7 +1,6 @@
 public class PopulationParameters {
     private int femalesNumber;
     private int malesNumber;
-    private int expectedYears;
     private float deathProbability;
     private float reproductionProbability;
     private int yearFrequencyInDays;
@@ -10,7 +9,6 @@ public class PopulationParameters {
     PopulationParameters (ParametersBuilder builder) {
         this.femalesNumber = builder.femalesNumber;
         this.malesNumber = builder.malesNumber;
-        this.expectedYears = builder.expectedYears;
         this.dayFrequencyInSeconds = builder.dayFrequencyInSeconds;
         this.yearFrequencyInDays = builder.yearFrequencyInDays;
         this.deathProbability = builder.deathProbability;
@@ -22,10 +20,6 @@ public class PopulationParameters {
 
     public int getMalesNumber() {
         return malesNumber;
-    }
-
-    public int getExpectedYears() {
-        return expectedYears;
     }
 
     public float getDeathProbability() {
@@ -47,7 +41,6 @@ public class PopulationParameters {
     public static class ParametersBuilder {
         private int femalesNumber;
         private int malesNumber;
-        private int expectedYears;
         private float deathProbability;
         private float reproductionProbability;
         private int yearFrequencyInDays;
@@ -60,11 +53,6 @@ public class PopulationParameters {
 
         public ParametersBuilder setMalesNumber(int malesNumber) {
             this.malesNumber = malesNumber;
-            return this;
-        }
-
-        public ParametersBuilder setExpectedYears(int expectedYears) {
-            this.expectedYears = expectedYears;
             return this;
         }
 

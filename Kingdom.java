@@ -1,5 +1,4 @@
 public interface Kingdom {
-    void oneDayPasses();
-    void oppositeGenderExists();
-    void childHoodPasses();
+    void reconfigurePopulationParameters(PopulationParameters parameters);
+    int getPopulationCount(int yearsPassed);
 }

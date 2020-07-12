@@ -1,6 +1,6 @@
 public class Married extends PopulationState {
     @Override
-    public void updateAge(Kingdom population) {
+    public void handlingAging(Species population) {
         //TODO
         /*
         Randomly choose a (0/1) to represent staying alive or
@@ -13,7 +13,7 @@ public class Married extends PopulationState {
     }
 
     @Override
-    public void handleHavingNewBorn(Kingdom population) {
+    public void handleHavingNewBorn(Species population) {
         //TODO
         /*
         create a new thread for the newborn with new state.

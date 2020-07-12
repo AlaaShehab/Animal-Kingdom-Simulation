@@ -1,6 +1,6 @@
 public class Adult extends PopulationState {
     @Override
-    public void handleBeingAdult(Kingdom population) {
+    public void handleBeingAdult(Species population) {
         //TODO
         /*
         increase number of adults (males/females)
@@ -9,7 +9,7 @@ public class Adult extends PopulationState {
     }
 
     @Override
-    public void handleGettingMarried(Kingdom population) {
+    public void handleGettingMarried(Species population) {
         //TODO
         /*
         set state to Married and decrease opposite gender count by 1
