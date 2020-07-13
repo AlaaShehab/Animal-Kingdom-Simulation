@@ -1,13 +1,10 @@
 public class Dead extends PopulationState {
     @Override
-    public void handlingAging(Species population) {
+    public void handlingAging(Species species) {
     }
 
     @Override
-    public void handleDeath(Species population) {
-        //TODO
-        /*
-        set state to dead and call handleDeath() on new state
-         */
+    public void handleDeath(Species species) {
+        //TODO handled by kingdom
     }
 }

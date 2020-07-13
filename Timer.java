@@ -21,10 +21,10 @@ public class Timer {
                 try {
                     TimeUnit.SECONDS.sleep(dayFrequencyInSeconds);
                 } catch (InterruptedException e) {
-                    System.out.println("Main - transaction - Interrupted");
+                    //Log
                 }
                 day++;
-                // TODO set the year
+                year = day % yearFrequencyInDays;
             }
         }).start();
     }

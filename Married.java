@@ -1,22 +1,26 @@
+import java.util.Random;
+
 public class Married extends PopulationState {
+    //TODO handle different probabilities for death and giving birth
     @Override
-    public void handlingAging(Species population) {
-        //TODO
-        /*
-        Randomly choose a (0/1) to represent staying alive or
-        dying.
-        if ALIVE then choose a (0/1) to represent having a
-        child or not.
-            if having a child call handleHavingNewBorn()
-        else call handleDeath()
-         */
+    public void handlingAging(Species species) {
+        Random random = new Random();
+        int livingState = random.nextInt(BOUND);
+        if (livingState == Living_State.DEAD.getValue()) {
+            handleDeath(species);
+            return;
+        }
+
+        int givingBirth = random.nextInt(BOUND);
+        if (givingBirth == 1) {
+            handleHavingNewBorn(species);
+        }
     }
 
     @Override
-    public void handleHavingNewBorn(Species population) {
-        //TODO
-        /*
-        create a new thread for the newborn with new state.
-         */
+    public void handleHavingNewBorn(Species species) {
+        Random random = new Random();
+        Species monkey = new Monkey();
+        species.addChild(monkey);
     }
 }
