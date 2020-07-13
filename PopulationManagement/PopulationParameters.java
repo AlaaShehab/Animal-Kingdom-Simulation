@@ -5,10 +5,14 @@ public class PopulationParameters {
     private int malesNumber;
     private double deathProbability = 0.5;
     private double reproductionProbability = 0.5;
+    // TODO write comment explaining when should these
+    // parameters be used
     private int yearFrequencyInDays = 10;
     private int dayFrequencyInSeconds = 1;
 
-    PopulationParameters (ParametersBuilder builder) {
+    private int adulthoodTimeInYears = 1;
+
+    private PopulationParameters(ParametersBuilder builder) {
         this.femalesNumber = builder.femalesNumber;
         this.malesNumber = builder.malesNumber;
         this.dayFrequencyInSeconds = builder.dayFrequencyInSeconds;
@@ -40,6 +44,10 @@ public class PopulationParameters {
         return dayFrequencyInSeconds;
     }
 
+    public int getAdulthoodTimeInYears() {
+        return adulthoodTimeInYears;
+    }
+
     public static class ParametersBuilder {
         private int femalesNumber;
         private int malesNumber;
@@ -47,6 +55,7 @@ public class PopulationParameters {
         private double reproductionProbability;
         private int yearFrequencyInDays;
         private int dayFrequencyInSeconds;
+        private int adulthoodTimeInYears;
 
         public ParametersBuilder setFemalesNumber(int femalesNumber) {
             this.femalesNumber = femalesNumber;
@@ -78,9 +87,13 @@ public class PopulationParameters {
             return this;
         }
 
+        public ParametersBuilder setAdulthoodTimeInYears(int adulthoodTimeInYears) {
+            this.adulthoodTimeInYears = adulthoodTimeInYears;
+            return this;
+        }
+
         public PopulationParameters build() {
-            PopulationParameters parameters =  new PopulationParameters(this);
-            return parameters;
+            return new PopulationParameters(this);
         }
     }
 }

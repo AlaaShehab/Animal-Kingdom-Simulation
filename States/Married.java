@@ -6,27 +6,35 @@ import Utlis.Living_State;
 
 import java.util.Random;
 
-public class Married extends PopulationState {
+public class Married implements State {
     //TODO handle different probabilities for death and giving birth
     @Override
     public void handlingAging(Species species) {
         Random random = new Random();
         int livingState = random.nextInt(BOUND);
         if (livingState == Living_State.DEAD.getValue()) {
-            handleDeath(species);
+            handlingDeath(species);
             return;
         }
 
         int givingBirth = random.nextInt(BOUND);
         if (givingBirth == 1) {
-            handleHavingNewBorn(species);
+            handlingHavingNewBorn(species);
         }
     }
 
     @Override
-    public void handleHavingNewBorn(Species species) {
+    public void handlingHavingNewBorn(Species species) {
         Random random = new Random();
         Species monkey = new Monkey();
         species.addChild(monkey);
+    }
+    @Override
+    public void handlingDeath(Species species) {
+        species.setState(new Dead());
+    }
+
+    @Override
+    public void handleBeingAdult(Species species) {
     }
 }

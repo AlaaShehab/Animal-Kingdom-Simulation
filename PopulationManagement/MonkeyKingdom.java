@@ -2,137 +2,119 @@ package PopulationManagement;
 
 import Species.Species;
 import Species.Monkey;
+import States.Adult;
+import States.Dead;
 import States.Married;
 import Utlis.Gender;
-import Utlis.Timer;
-import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class MonkeyKingdom implements Kingdom {
-    // TODO instead of having this management class
-    // maybe we could create another class and include it in monkey's
-    // class so that all the handlers here would be moved to States.State class
     private PopulationParameters parameters;
 
-    private List<Pair<Thread, Species>> males;
-    private List<Pair<Thread, Species>> females;
-    private List<Pair<Thread, Species>> newBorn;
-    private List<Pair<Thread, Species>> married;
+    // TODO manage the parameter which controls when a newborn
+    // turns to an adult.
+    private List<Species> monkeys;
+    private List<Species> marriedMonkeys;
 
-    MonkeyKingdom(PopulationParameters parameters) {
+    public MonkeyKingdom(PopulationParameters parameters) {
         reconfigurePopulationParameters(parameters);
-        males = new ArrayList<>();
-        females = new ArrayList<>();
-        newBorn = new ArrayList<>();
+        monkeys = new ArrayList<>();
+        marriedMonkeys = new ArrayList<Species>();
     }
 
     @Override
-    public void reconfigurePopulationParameters(PopulationParameters parameters) {
+    public void reconfigurePopulationParameters
+            (PopulationParameters parameters) {
         this.parameters = parameters;
     }
 
     @Override
-    public int getPopulationCount(int yearsPassed) {
-        Timer timer = new Timer(parameters);
+    public int getPopulationCount(int yearsToRunSimulator) {
+        generatePopulation();
+        runSimulator(yearsToRunSimulator);
+        return 0;
+    }
 
+    private void generatePopulation() {
         for (int i = 0; i < parameters.getMalesNumber(); i++) {
             Species monkey = new Monkey();
             monkey.setGender(Gender.MALE);
-            monkey.setDeathProbability(parameters.getDeathProbability());
-            monkey.setReproductionProbability(parameters.getReproductionProbability());
-            monkey.setTimer(timer);
-            newBorn.add(new Pair<>(createNewSpeciesThread(monkey), monkey));
+            monkeys.add(monkey);
         }
         for (int i = 0; i < parameters.getFemalesNumber(); i++) {
             Species monkey = new Monkey();
             monkey.setGender(Gender.FEMALE);
-            monkey.setTimer(timer);
-            newBorn.add(new Pair<>(createNewSpeciesThread(monkey), monkey));
+            monkeys.add(monkey);
+        }
+    }
+
+    private void runSimulator(int yearsToRunSimulator) {
+        for (int year = 0; year < yearsToRunSimulator; year++) {
+            moveOneStepInTime();
+            handleNewBorn();
+            handleDeath();
+            handleMarriage();
+        }
+    }
+
+    private void handleDeath() {
+        for (Species monkey : monkeys) {
+            if (monkey.getState() instanceof Dead) monkeys.remove(monkey);
+        }
+    }
+
+    private void handleMarriage() {
+        List<Species> females = new ArrayList<Species>();
+        List<Species> males = new ArrayList<Species>();
+
+        for (Species monkey : monkeys) {
+            if (monkey.getGender() == Gender.FEMALE
+                    && monkey.getState() instanceof Adult) {
+                females.add(monkey);
+                monkeys.remove(monkey);
+            } else if (monkey.getGender() == Gender.MALE
+                    && monkey.getState() instanceof Adult) {
+                males.add(monkey);
+                monkeys.remove(monkey);
+            }
+
+            if (!females.isEmpty() && !males.isEmpty()) {
+                females.remove(0);
+                males.remove(0);
+
+                Species marriedMonkey = new Monkey();
+                marriedMonkey.setGender(Gender.MARRIED);
+                marriedMonkey.setState(new Married());
+                marriedMonkeys.add(marriedMonkey);
+            }
         }
 
-        timer.start();
-        handleNewBorn(timer);
-        handleAdult(timer);
-        handleMarriage(timer);
-
-        //TODO let main join threads
-        //TODO handles when expected years have passed
-        return 0;
+        for (Species monkey : females) {
+            monkeys.add(monkey);
+            females.remove(monkey);
+        }
+        for (Species monkey : males) {
+            monkeys.add(monkey);
+            males.remove(monkey);
+        }
     }
 
-    private void handleAdult(Timer timer) {
-        new Thread(() -> {
-            while (true) {
-                try {
-                    TimeUnit.MICROSECONDS.sleep(1);
-                } catch (InterruptedException e) {
-                    //Log
-                }
-                for (int i = 0; i < newBorn.size(); i++) {
-                    if (newBorn.get(i).getValue().isAdult()) {
-                        // TODO refactor this to statement
-                        boolean unused = newBorn.get(i).getValue().getGender()
-                                == Gender.MALE ? males.add(newBorn.remove(i--)) :
-                                females.add(newBorn.remove(i--));
-                    }
-                }
+    // we could handle giving birth directly from here
+    private void handleNewBorn() {
+        for (Species monkey : marriedMonkeys) {
+            Species child = monkey.getChild();
+            while (child != null) {
+                monkeys.add(child);
+                child = monkey.getChild();
             }
-        }).start();
+        }
     }
 
-    // TODO handle duplication and refactor
-    private void handleMarriage(Timer timer) {
-        new Thread(() -> {
-            while (true) {
-                try {
-                    TimeUnit.MICROSECONDS.sleep(1);
-                } catch (InterruptedException e) {
-                    //Log
-                }
-                while (!males.isEmpty() && !females.isEmpty()) {
-                    Pair<Thread, Species> male = males.remove(0);
-                    Pair<Thread, Species> female = females.remove(0);
-
-                    // TODO handle killing threads
-                    Species monkey = new Monkey();
-                    monkey.setGender(Gender.UNSPECIFIED);
-                    monkey.setState(new Married());
-                    monkey.setTimer(timer);
-                    married.add(new Pair<>(createNewSpeciesThread(monkey), monkey));
-                }
-            }
-        }).start();
-    }
-
-    private void handleNewBorn(Timer timer) {
-        new Thread(() -> {
-            while (true) {
-                try {
-                    TimeUnit.MICROSECONDS.sleep(1);
-                } catch (InterruptedException e) {
-                    //Log
-                }
-                for (int i = 0; i < married.size(); i++) {
-                    Species monkey = married.get(i).getValue();
-                    Species child = monkey.getChild();
-                    while (child != null) {
-                        child.setTimer(timer);
-                        newBorn.add(new Pair<>(createNewSpeciesThread(child), child));
-                        child = monkey.getChild();
-                    }
-                }
-            }
-        }).start();
-    }
-
-    private Thread createNewSpeciesThread(Species monkey) {
-        Thread thread = new Thread(() -> {
-            monkey.runMonkeyThread();
-        });
-        thread.start();
-        return thread;
+    private void moveOneStepInTime() {
+        for (Species monkey : monkeys) {
+            monkey.oneDayPasses();
+        }
     }
 }

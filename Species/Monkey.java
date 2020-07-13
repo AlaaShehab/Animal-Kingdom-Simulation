@@ -1,10 +1,10 @@
 package Species;
 
+import PopulationManagement.PopulationParameters;
 import States.Born;
 import States.Dead;
 import States.State;
 import Utlis.Gender;
-import Utlis.Timer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,22 +15,11 @@ public class Monkey implements Species {
 
     private Gender gender;
     private State state;
-    private boolean adult;
+    private int stepCount;
 
-    private static double deathProbability;
-    private static double reproductionProbability;
+    private static PopulationParameters parameters;
 
     private List<Species> children;
-
-    private Timer timer;
-
-    public void setDeathProbability(double deathProbability) {
-        Monkey.deathProbability = deathProbability;
-    }
-
-    public void setReproductionProbability(double reproductionProbability) {
-        Monkey.reproductionProbability = reproductionProbability;
-    }
 
     public Monkey () {
         Random random = new Random();
@@ -40,28 +29,22 @@ public class Monkey implements Species {
 
         setState(new Born());
         children = new ArrayList<>();
+        stepCount = 0;
     }
 
     @Override
-    public void runMonkeyThread() {
-        int currentDay = timer.getDay();
-        int currentYear = timer.getYear();
-
-        while (!(state instanceof Dead)) {
-            if (currentDay - timer.getDay() > 0) {
-                oneDayPasses();
-                currentDay++;
-            }
-            if (currentYear - timer.getYear() > 0) {
-                childHoodPasses();
-                currentYear++;
-            }
-        }
+    public void setParameters(PopulationParameters parameters) {
+        Monkey.parameters = parameters;
     }
 
     @Override
     public void oneDayPasses() {
+        stepCount++;
         state.handlingAging(this);
+        if (!(state instanceof Dead) &&
+                stepCount == parameters.getAdulthoodTimeInYears()) {
+            childHoodPasses();
+        }
     }
 
     @Override
@@ -86,22 +69,10 @@ public class Monkey implements Species {
     }
 
     public void addChild (Species monkey) {
-
+        children.add(monkey);
     }
 
     public Species getChild () {
         return children.isEmpty() ? null : children.remove(0);
-    }
-
-    public boolean isAdult() {
-        return adult;
-    }
-
-    public void setAdult(boolean adult) {
-        this.adult = adult;
-    }
-
-    public void setTimer(Timer timer) {
-        this.timer = timer;
     }
 }
