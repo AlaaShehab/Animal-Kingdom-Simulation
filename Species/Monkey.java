@@ -1,8 +1,16 @@
+package Species;
+
+import States.Born;
+import States.Dead;
+import States.State;
+import Utlis.Gender;
+import Utlis.Timer;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Monkey implements Species, Runnable{
+public class Monkey implements Species {
     private static final int BOUND = 1;
 
     private Gender gender;
@@ -16,15 +24,15 @@ public class Monkey implements Species, Runnable{
 
     private Timer timer;
 
-    public void setDeathProbability(float deathProbability) {
+    public void setDeathProbability(double deathProbability) {
         Monkey.deathProbability = deathProbability;
     }
 
-    public void setReproductionProbability(float reproductionProbability) {
+    public void setReproductionProbability(double reproductionProbability) {
         Monkey.reproductionProbability = reproductionProbability;
     }
 
-    public void Monkey () {
+    public Monkey () {
         Random random = new Random();
         setGender(random.nextInt(BOUND)
                 == Gender.FEMALE.getValue()
@@ -35,7 +43,7 @@ public class Monkey implements Species, Runnable{
     }
 
     @Override
-    public void run() {
+    public void runMonkeyThread() {
         int currentDay = timer.getDay();
         int currentYear = timer.getYear();
 
@@ -82,7 +90,7 @@ public class Monkey implements Species, Runnable{
     }
 
     public Species getChild () {
-        return children.isEmpty() ? null : children.get(0);
+        return children.isEmpty() ? null : children.remove(0);
     }
 
     public boolean isAdult() {

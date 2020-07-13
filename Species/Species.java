@@ -1,8 +1,13 @@
-import javafx.util.Pair;
+package Species;
+
+import States.State;
+import Utlis.Gender;
+import Utlis.Timer;
 
 public interface Species {
     void oneDayPasses();
     void childHoodPasses();
+    void runMonkeyThread();;
 
     void setGender(Gender gender);
     Gender getGender();
@@ -13,7 +18,7 @@ public interface Species {
 
     void addChild (Species monkey);
     Species getChild ();
-    void setDeathProbability(float deathProbability);
-    void setReproductionProbability(float reproductionProbability);
+    void setDeathProbability(double deathProbability);
+    void setReproductionProbability(double reproductionProbability);
     void setTimer(Timer timer);
 }

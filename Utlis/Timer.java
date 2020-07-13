@@ -1,3 +1,7 @@
+package Utlis;
+
+import PopulationManagement.PopulationParameters;
+
 import java.util.concurrent.TimeUnit;
 
 public class Timer {
@@ -9,9 +13,9 @@ public class Timer {
 
     private boolean stopTimer;
 
-    Timer (int yearFrequencyInDays, int dayFrequencyInSeconds) {
-        this.dayFrequencyInSeconds = dayFrequencyInSeconds;
-        this.yearFrequencyInDays = yearFrequencyInDays;
+    public Timer (PopulationParameters parameters) {
+        this.dayFrequencyInSeconds = parameters.getDayFrequencyInSeconds();
+        this.yearFrequencyInDays = parameters.getYearFrequencyInDays();
         stopTimer = false;
     }
 
