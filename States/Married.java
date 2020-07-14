@@ -7,7 +7,6 @@ import Utlis.Living_State;
 import java.util.Random;
 
 public class Married implements State {
-    //TODO handle different probabilities for death and giving birth
     @Override
     public void handlingAging(Species species) {
         Random random = new Random();
@@ -24,17 +23,17 @@ public class Married implements State {
     }
 
     @Override
-    public void handlingHavingNewBorn(Species species) {
-        Random random = new Random();
-        Species monkey = new Monkey();
-        species.addChild(monkey);
-    }
-    @Override
-    public void handlingDeath(Species species) {
-        species.setState(new Dead());
+    public void handleAdultAging(Species species) {
     }
 
     @Override
-    public void handleBeingAdult(Species species) {
+    public void handlingHavingNewBorn(Species species) {
+        Species monkey = new Monkey();
+        species.addChild(monkey);
+    }
+
+    @Override
+    public void handlingDeath(Species species) {
+        species.setState(new Dead());
     }
 }

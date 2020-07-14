@@ -6,10 +6,6 @@ import Utlis.Living_State;
 import java.util.Random;
 
 public class Adult implements State {
-    @Override
-    public void handlingDeath(Species species) {
-        species.setState(new Dead());
-    }
 
     @Override
     public void handlingAging(Species species) {
@@ -22,10 +18,15 @@ public class Adult implements State {
     }
 
     @Override
-    public void handleBeingAdult(Species species) {
+    public void handleAdultAging(Species species) {
     }
 
     @Override
     public void handlingHavingNewBorn(Species species) {
+    }
+
+    @Override
+    public void handlingDeath(Species species) {
+        species.setState(new Dead());
     }
 }

@@ -3,7 +3,6 @@ package Species;
 import PopulationManagement.PopulationParameters;
 import States.State;
 import Utlis.Gender;
-import Utlis.Timer;
 
 public interface Species {
     void oneDayPasses();

@@ -49,7 +49,7 @@ public class Monkey implements Species {
 
     @Override
     public void childHoodPasses() {
-        state.handleBeingAdult(this);
+        state.handleAdultAging(this);
     }
 
     public Gender getGender() {

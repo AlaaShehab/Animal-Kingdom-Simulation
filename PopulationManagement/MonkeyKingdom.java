@@ -38,14 +38,11 @@ public class MonkeyKingdom implements Kingdom {
     }
 
     private void generatePopulation() {
-        for (int i = 0; i < parameters.getMalesNumber(); i++) {
+        for (int i = 0; i < parameters.getMalesNumber() + parameters.getFemalesNumber(); i++) {
             Species monkey = new Monkey();
-            monkey.setGender(Gender.MALE);
-            monkeys.add(monkey);
-        }
-        for (int i = 0; i < parameters.getFemalesNumber(); i++) {
-            Species monkey = new Monkey();
-            monkey.setGender(Gender.FEMALE);
+            monkey.setGender(i < parameters.getMalesNumber()
+                    ? Gender.MALE : Gender.FEMALE);
+            monkey.setParameters(parameters);
             monkeys.add(monkey);
         }
     }
@@ -66,8 +63,8 @@ public class MonkeyKingdom implements Kingdom {
     }
 
     private void handleMarriage() {
-        List<Species> females = new ArrayList<Species>();
-        List<Species> males = new ArrayList<Species>();
+        List<Species> females = new ArrayList<>();
+        List<Species> males = new ArrayList<>();
 
         for (Species monkey : monkeys) {
             if (monkey.getGender() == Gender.FEMALE
