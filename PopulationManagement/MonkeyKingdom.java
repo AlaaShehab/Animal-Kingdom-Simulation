@@ -34,7 +34,7 @@ public class MonkeyKingdom implements Kingdom {
     public int getPopulationCount(int yearsToRunSimulator) {
         generatePopulation();
         runSimulator(yearsToRunSimulator);
-        return 0;
+        return monkeys.size() + (marriedMonkeys.size() * 2);
     }
 
     private void generatePopulation() {
@@ -57,8 +57,8 @@ public class MonkeyKingdom implements Kingdom {
     }
 
     private void handleDeath() {
-        for (Species monkey : monkeys) {
-            if (monkey.getState() instanceof Dead) monkeys.remove(monkey);
+        for (int i = 0; i < monkeys.size(); i++) {
+            if (monkeys.get(i).getState() instanceof Dead) monkeys.remove(i--);
         }
     }
 
@@ -66,15 +66,16 @@ public class MonkeyKingdom implements Kingdom {
         List<Species> females = new ArrayList<>();
         List<Species> males = new ArrayList<>();
 
-        for (Species monkey : monkeys) {
+        for (int i = 0; i < monkeys.size(); i++) {
+            Species monkey = monkeys.get(i);
             if (monkey.getGender() == Gender.FEMALE
                     && monkey.getState() instanceof Adult) {
                 females.add(monkey);
-                monkeys.remove(monkey);
+                monkeys.remove(i--);
             } else if (monkey.getGender() == Gender.MALE
                     && monkey.getState() instanceof Adult) {
                 males.add(monkey);
-                monkeys.remove(monkey);
+                monkeys.remove(i--);
             }
 
             if (!females.isEmpty() && !males.isEmpty()) {
@@ -90,11 +91,9 @@ public class MonkeyKingdom implements Kingdom {
 
         for (Species monkey : females) {
             monkeys.add(monkey);
-            females.remove(monkey);
         }
         for (Species monkey : males) {
             monkeys.add(monkey);
-            males.remove(monkey);
         }
     }
 

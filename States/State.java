@@ -3,7 +3,7 @@ package States;
 import Species.Species;
 
 public interface State {
-    int BOUND = 1;
+    int BOUND = 2;
     void handlingAging(Species species);
     void handlingDeath(Species species);
     void handleAdultAging(Species species);
