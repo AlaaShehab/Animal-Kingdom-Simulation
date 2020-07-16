@@ -2,6 +2,7 @@ package StateMachinery;
 
 import Actions.*;
 import Conditions.AdultCondition;
+import Conditions.ChildHoodCondition;
 import Conditions.MarriageCondition;
 import Conditions.NoCondition;
 
@@ -38,7 +39,7 @@ public class SystemTransitions {
                 .setStartState(State.MonkeyState.BORN)
                 .setEndState(State.MonkeyState.BORN)
                 .setAction(new NoActionTransition())
-                .setCondition(new AdultCondition())
+                .setCondition(new ChildHoodCondition())
                 .setProbability(0.5));
         stateTransitions.add(new Transition()
                 .setStartState(State.MonkeyState.BORN)
@@ -50,8 +51,8 @@ public class SystemTransitions {
                 .setStartState(State.MonkeyState.BORN)
                 .setEndState(State.MonkeyState.ADULT)
                 .setAction(new HandleNewAdultsAddedToSystem())
-                .setProbability(0.5)
-                .setCondition(new AdultCondition()));
+                .setCondition(new AdultCondition())
+                .setProbability(0.5));
         transitions.put(State.MonkeyState.BORN, stateTransitions);
     }
 
