@@ -4,5 +4,5 @@ import StateMachinery.MonkeyKingdom;
 import Population.Monkey;
 
 public interface Condition {
-    boolean conditionIsMet(MonkeyKingdom kingdom, Monkey monkey);
+    boolean isConditionMet(MonkeyKingdom kingdom, Monkey monkey);
 }

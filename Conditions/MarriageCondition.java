@@ -5,7 +5,7 @@ import Utils.Gender;
 
 public class MarriageCondition implements Condition {
     @Override
-    public boolean conditionIsMet(MonkeyKingdom kingdom, Monkey monkey) {
+    public boolean isConditionMet(MonkeyKingdom kingdom, Monkey monkey) {
         return (monkey.getGender() == Gender.MALE
                 && !kingdom.getAdultFemales().isEmpty())
                 || (monkey.getGender() == Gender.FEMALE

@@ -4,5 +4,5 @@ import StateMachinery.MonkeyKingdom;
 import Population.Monkey;
 
 public interface Action {
-    void executeAction(MonkeyKingdom kingdom, Monkey monkey);
+    void execute(MonkeyKingdom kingdom, Monkey monkey);
 }

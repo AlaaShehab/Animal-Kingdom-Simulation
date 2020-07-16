@@ -6,7 +6,7 @@ import Utils.Gender;
 
 public class HandleMonkeyMarriage implements Action {
     @Override
-    public void executeAction(MonkeyKingdom kingdom, Monkey monkey) {
+    public void execute(MonkeyKingdom kingdom, Monkey monkey) {
         Monkey toBeMarried = null;
         if (monkey.getGender() == Gender.FEMALE) {
             toBeMarried = kingdom.getAdultMales().isEmpty()

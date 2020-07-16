@@ -43,7 +43,7 @@ public class MonkeyKingdom {
                         .getAllPossibleStates(monkey.getMonkeyState());
                 Transition transition = pickTransition(transitions, monkey);
                 monkey.updateMonkeyState(transition.getEndState());
-                transition.getAction().executeAction(this, monkey);
+                transition.getAction().execute(this, monkey);
             }
         }
         return calculatePopulation();
@@ -60,7 +60,7 @@ public class MonkeyKingdom {
     private Transition pickTransition(List<Transition> transitions, Monkey monkey) {
         // Remove transitions with unstatisfied conditions
         for (int i = 0; i < transitions.size(); i++) {
-            if (!transitions.get(i).getCondition().conditionIsMet(this, monkey)) {
+            if (!transitions.get(i).getCondition().isConditionMet(this, monkey)) {
                 transitions.remove(i--);
             }
         }
