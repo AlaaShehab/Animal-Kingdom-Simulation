@@ -1,5 +1,3 @@
-package PopulationManagement;
-
 public class PopulationParameters {
     private int femalesNumber;
     private int malesNumber;

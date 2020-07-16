@@ -1,14 +1,18 @@
-package Utlis;
+package Utils;
 
-public enum Living_State {
-    DEAD(0), ALIVE(1);
+public enum Gender {
+    MALE(0),
+    FEMALE(1),
+    MARRIED(2);
+
     private int value;
 
-    Living_State(int value) {
+    Gender(int value) {
         this.value = value;
     }
 
     public int getValue() {
         return value;
     }
+
 }
