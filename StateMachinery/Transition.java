@@ -1,3 +1,8 @@
+package StateMachinery;
+
+import Actions.Action;
+import Conditions.Condition;
+
 public class Transition {
     private double probability;
     private Action action;

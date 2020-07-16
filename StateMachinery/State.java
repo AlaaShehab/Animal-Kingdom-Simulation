@@ -1,3 +1,5 @@
+package StateMachinery;
+
 public class State {
     public enum MonkeyState {
         BORN,

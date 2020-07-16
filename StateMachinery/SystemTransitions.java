@@ -1,3 +1,10 @@
+package StateMachinery;
+
+import Actions.*;
+import Conditions.AdultCondition;
+import Conditions.MarriageCondition;
+import Conditions.NoCondition;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +37,7 @@ public class SystemTransitions {
         stateTransitions.add(new Transition()
                 .setStartState(State.MonkeyState.BORN)
                 .setEndState(State.MonkeyState.BORN)
-                .setAction(new NoActionTransitions())
+                .setAction(new NoActionTransition())
                 .setCondition(new AdultCondition())
                 .setProbability(0.5));
         stateTransitions.add(new Transition()
@@ -53,7 +60,7 @@ public class SystemTransitions {
         stateTransitions.add(new Transition()
                 .setStartState(State.MonkeyState.ADULT)
                 .setEndState(State.MonkeyState.ADULT)
-                .setAction(new NoActionTransitions())
+                .setAction(new NoActionTransition())
                 .setCondition(new NoCondition())
                 .setProbability(0.25));
         stateTransitions.add(new Transition()
@@ -76,7 +83,7 @@ public class SystemTransitions {
         stateTransitions.add(new Transition()
                 .setStartState(State.MonkeyState.MARRIED)
                 .setEndState(State.MonkeyState.MARRIED)
-                .setAction(new NoActionTransitions())
+                .setAction(new NoActionTransition())
                 .setCondition(new NoCondition())
                 .setProbability(0.25));
         stateTransitions.add(new Transition()
@@ -99,7 +106,7 @@ public class SystemTransitions {
         stateTransitions.add(new Transition()
                 .setStartState(State.MonkeyState.DEAD)
                 .setEndState(State.MonkeyState.DEAD)
-                .setAction(new NoActionTransitions())
+                .setAction(new NoActionTransition())
                 .setCondition(new NoCondition())
                 .setProbability(1.0));
         transitions.put(State.MonkeyState.DEAD, stateTransitions);

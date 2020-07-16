@@ -1,3 +1,7 @@
+package StateMachinery;
+
+import Population.Monkey;
+import Population.PopulationParameters;
 import Utils.Gender;
 
 import java.util.ArrayList;
@@ -54,6 +58,7 @@ public class MonkeyKingdom {
             return null;
         }
 
+        return transitions.get(0);
     }
 
     public List<Monkey> getAdultMales() {

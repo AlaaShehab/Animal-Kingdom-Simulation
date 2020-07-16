@@ -1,3 +1,5 @@
+package Population;
+
 public class PopulationParameters {
     private int femalesNumber;
     private int malesNumber;
