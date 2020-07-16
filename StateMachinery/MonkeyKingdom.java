@@ -5,20 +5,21 @@ import Population.PopulationParameters;
 import Utils.Gender;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MonkeyKingdom {
     private List<Monkey> monkeys;
-
-    private List<Monkey> adultMales;
-    private List<Monkey> adultFemales;
+    private Map<Gender, List<Monkey>> adultMonkeys;
     private PopulationParameters parameters;
 
     public MonkeyKingdom (PopulationParameters parameters) {
         this.parameters = parameters;
         monkeys = new ArrayList<>();
-        adultMales = new ArrayList<>();
-        adultFemales = new ArrayList<>();
+        adultMonkeys = new HashMap<>();
+        adultMonkeys.put(Gender.FEMALE, new ArrayList<>());
+        adultMonkeys.put(Gender.MALE, new ArrayList<>());
         
         SystemTransitions.getInstance();
         generatePopulation();
@@ -36,9 +37,8 @@ public class MonkeyKingdom {
 
     public int runSimulation (int yearsToRunSimulation) {
         for (int year = 0; year < yearsToRunSimulation; year++) {
-            //TODO handle removing from list while looping (
-            for (int curMonkey = 0; curMonkey < monkeys.size(); curMonkey++) {
-                Monkey monkey = monkeys.get(curMonkey);
+            //TODO handle removing from list while looping (ConcurrentModification)
+            for (Monkey monkey : monkeys) {
                 List<Transition> transitions = SystemTransitions
                         .getAllPossibleStates(monkey.getMonkeyState());
                 Transition transition = pickTransition(transitions, monkey);
@@ -79,21 +79,30 @@ public class MonkeyKingdom {
         return transitions.get(0);
     }
 
-    public List<Monkey> getAdultMales() {
-        return adultMales;
-    }
-
-    public List<Monkey> getAdultFemales() {
-        return adultFemales;
-    }
-
     public void removeMonkey (Monkey monkey) {
         monkeys.remove(monkey);
-        adultFemales.remove(monkey);
-        adultMales.remove(monkey);
+        removeAdultMonkey(monkey, Gender.FEMALE);
+        removeAdultMonkey(monkey, Gender.MALE);
     }
 
     public void addNewMonkey (Monkey monkey) {
         monkeys.add(monkey);
+    }
+
+    public void addAdultMonkey (Monkey monkey, Gender gender) {
+        adultMonkeys.get(gender).add(monkey);
+    }
+
+    public void removeAdultMonkey (Monkey monkey, Gender gender) {
+        adultMonkeys.get(gender).remove(monkey);
+    }
+
+    public Monkey getAdultMonkey (Gender gender) {
+        return adultMonkeys.get(gender).isEmpty()
+                ? null : adultMonkeys.get(gender).get(0);
+    }
+
+    public boolean isAdultListEmpty (Gender gender) {
+        return adultMonkeys.get(gender).isEmpty();
     }
 }

@@ -1,9 +1,5 @@
 import Population.PopulationParameters;
 import StateMachinery.MonkeyKingdom;
-import javafx.util.Pair;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Simulator {
     public static void main (String[] args) {
@@ -15,6 +11,6 @@ public class Simulator {
                         .build();
 
         MonkeyKingdom kingdom = new MonkeyKingdom(parameters);
-        System.out.println(kingdom.runSimulation(5));
+        System.out.println(kingdom.runSimulation(10));
     }
 }
