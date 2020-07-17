@@ -12,8 +12,10 @@ import java.util.List;
 import java.util.Map;
 
 public class SystemTransitions {
-    // alternative use MultiValueMap
+    // Transitions are static throughout the entire population.
     private static SystemTransitions instance = null;
+
+    // An alternative to using a map is using MultiValueMap.
     private static Map<State.MonkeyState, List<Transition>> transitions;
 
     public static void getInstance() {
@@ -112,6 +114,7 @@ public class SystemTransitions {
         transitions.put(State.MonkeyState.DEAD, stateTransitions);
     }
 
+    // Get all possible transitions given a current state.
     public static List<Transition> getAllPossibleStates (State.MonkeyState state) {
         List<Transition> stateTransitions = new ArrayList<>();
         if (!transitions.containsKey(state)) return stateTransitions;

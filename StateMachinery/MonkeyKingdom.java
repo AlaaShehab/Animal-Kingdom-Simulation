@@ -17,9 +17,14 @@ public class MonkeyKingdom {
         adultMonkeys = new HashMap<>();
         adultMonkeys.put(Gender.FEMALE, new ArrayList<>());
         adultMonkeys.put(Gender.MALE, new ArrayList<>());
-        
+
+        // Setup the static system transitions.
         SystemTransitions.getInstance();
+
+        // Update the system transitions with the new
+        // probabilities defined in PopulationParameters.
         updateSystemTransitions();
+
         generatePopulation();
     }
 
@@ -53,9 +58,10 @@ public class MonkeyKingdom {
             for (Monkey monkey : monkeys) {
                 List<Transition> transitions = SystemTransitions
                         .getAllPossibleStates(monkey.getMonkeyState());
-                Transition transition = pickTransition(transitions, monkey);
-                monkey.updateMonkeyState(transition.getEndState());
-                transition.getAction().execute(this, monkey);
+                Optional<Transition> transition = pickTransition(transitions, monkey);
+                transition.ifPresent(trans ->
+                    {monkey.updateMonkeyState(trans.getEndState());
+                    trans.getAction().execute(this, monkey);});
             }
         }
         return calculatePopulation();
@@ -69,26 +75,25 @@ public class MonkeyKingdom {
         return populationCount;
     }
 
-    private Transition pickTransition(List<Transition> transitions, Monkey monkey) {
-        // Remove transitions with unstatisfied conditions
+    private Optional<Transition> pickTransition(List<Transition> transitions, Monkey monkey) {
+        // Remove transitions with unsatisfied conditions.
         for (int i = 0; i < transitions.size(); i++) {
             if (!transitions.get(i).getCondition().isConditionMet(this, monkey)) {
                 transitions.remove(i--);
             }
         }
         if (transitions.isEmpty()) {
-            //Throw an exception
-            return null;
+            return Optional.empty();
         }
         double probability = Math.random();
         double cumulativeProbability = 0.0;
         for (Transition transition : transitions) {
             cumulativeProbability += transition.getProbability();
             if (probability <= cumulativeProbability) {
-               return transition;
+               return Optional.of(transition);
             }
         }
-        return transitions.get(0);
+        return Optional.of(transitions.get(0));
     }
 
     public void removeMonkey (Monkey monkey) {
@@ -109,13 +114,14 @@ public class MonkeyKingdom {
         adultMonkeys.get(gender).remove(monkey);
     }
 
-    public Monkey getAdultMonkey (Gender gender) {
+    public Optional<Monkey> getAdultMonkey (Gender gender) {
         return adultMonkeys.get(gender).isEmpty()
-                ? null : adultMonkeys.get(gender).get(0);
+                ? Optional.empty()
+                : Optional.of(adultMonkeys.get(gender).get(0));
     }
 
-    public boolean isAdultListEmpty (Gender gender) {
-        return adultMonkeys.get(gender).isEmpty();
+    public boolean hasAdultMonkey(Gender gender) {
+        return !adultMonkeys.get(gender).isEmpty();
     }
 
     public PopulationParameters getParameters () {

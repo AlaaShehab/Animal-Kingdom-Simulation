@@ -4,10 +4,17 @@ import Actions.Action;
 import Conditions.Condition;
 
 public class Transition {
+    // It defines the probability of a transition.
     private double probability;
+
+    //It defines the action occurring after a transition
+    // is taken.
     private Action action;
     private State.MonkeyState startState;
     private State.MonkeyState endState;
+
+    // It defines the condition need to be satisfied
+    // before taking a transition.
     private Condition condition;
 
     public double getProbability() {

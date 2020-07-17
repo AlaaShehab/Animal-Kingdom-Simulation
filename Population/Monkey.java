@@ -6,7 +6,11 @@ import Utils.Gender;
 public class Monkey {
     private State state;
     private Gender gender;
+
+    // It represents the current age of the monkey.
+    // Required for Bron to Adult transition.
     private int age;
+
     public Monkey (Gender gender) {
         state = new State();
         state.setStateValue(State.MonkeyState.BORN);

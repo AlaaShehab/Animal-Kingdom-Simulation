@@ -4,20 +4,20 @@ import StateMachinery.MonkeyKingdom;
 import Population.Monkey;
 import Utils.Gender;
 
+import java.util.Optional;
+
+// Handles the transition of 2 monkeys into Married
+// state.
 public class HandleMonkeyMarriage implements Action {
     @Override
     public void execute(MonkeyKingdom kingdom, Monkey monkey) {
-        Monkey toBeMarried;
+        Optional<Monkey> toBeMarried;
         if (monkey.getGender() == Gender.FEMALE) {
             toBeMarried = kingdom.getAdultMonkey(Gender.MALE);
         } else {
             toBeMarried = kingdom.getAdultMonkey(Gender.FEMALE);
         }
-        if (toBeMarried == null) {
-            //Throw exception
-            return;
-        }
-        kingdom.removeMonkey(toBeMarried);
-        monkey.setGender(Gender.MARRIED);
+        toBeMarried.ifPresent(
+                monkeyToMarry -> kingdom.removeMonkey(monkeyToMarry));
     }
 }
