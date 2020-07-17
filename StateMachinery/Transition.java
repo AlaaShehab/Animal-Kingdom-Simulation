@@ -3,19 +3,21 @@ package StateMachinery;
 import Actions.Action;
 import Conditions.Condition;
 
+import java.util.Optional;
+
 public class Transition {
     // It defines the probability of a transition.
     private double probability;
 
     //It defines the action occurring after a transition
     // is taken.
-    private Action action;
+    private Optional<Action> action;
     private State.MonkeyState startState;
     private State.MonkeyState endState;
 
     // It defines the condition need to be satisfied
     // before taking a transition.
-    private Condition condition;
+    private Optional<Condition> condition;
 
     public double getProbability() {
         return probability;
@@ -26,11 +28,11 @@ public class Transition {
         return this;
     }
 
-    public Action getAction() {
+    public Optional<Action> getAction() {
         return action;
     }
 
-    public Transition setAction(Action action) {
+    public Transition setAction(Optional<Action> action) {
         this.action = action;
         return this;
     }
@@ -53,11 +55,11 @@ public class Transition {
         return this;
     }
 
-    public Condition getCondition() {
+    public Optional<Condition> getCondition() {
         return condition;
     }
 
-    public Transition setCondition(Condition condition) {
+    public Transition setCondition(Optional<Condition> condition) {
         this.condition = condition;
         return this;
     }

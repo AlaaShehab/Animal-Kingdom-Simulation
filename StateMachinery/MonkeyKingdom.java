@@ -1,5 +1,6 @@
 package StateMachinery;
 
+import Conditions.Condition;
 import Population.Monkey;
 import Population.PopulationParameters;
 import Utils.Gender;
@@ -59,9 +60,12 @@ public class MonkeyKingdom {
                 List<Transition> transitions = SystemTransitions
                         .getAllPossibleStates(monkey.getMonkeyState());
                 Optional<Transition> transition = pickTransition(transitions, monkey);
-                transition.ifPresent(trans ->
-                    {monkey.updateMonkeyState(trans.getEndState());
-                    trans.getAction().execute(this, monkey);});
+                transition.ifPresent(trans -> {
+                    monkey.updateMonkeyState(trans.getEndState());
+                    trans.getAction().ifPresent(
+                            action -> action.execute(this, monkey)
+                    );
+                });
             }
         }
         return calculatePopulation();
@@ -78,7 +82,9 @@ public class MonkeyKingdom {
     private Optional<Transition> pickTransition(List<Transition> transitions, Monkey monkey) {
         // Remove transitions with unsatisfied conditions.
         for (int i = 0; i < transitions.size(); i++) {
-            if (!transitions.get(i).getCondition().isConditionMet(this, monkey)) {
+            Optional<Condition> condition = transitions.get(i).getCondition();
+            if (condition.isPresent()
+                    && condition.get().isConditionMet(this, monkey)){
                 transitions.remove(i--);
             }
         }
