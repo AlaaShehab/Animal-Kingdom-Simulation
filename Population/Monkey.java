@@ -15,6 +15,7 @@ public class Monkey {
         state = new State();
         state.setStateValue(State.MonkeyState.BORN);
         this.gender = gender;
+        age = 0;
     }
     public void updateMonkeyState (State.MonkeyState stateValue) {
         state.setStateValue(stateValue);

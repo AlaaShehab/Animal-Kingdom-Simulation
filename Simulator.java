@@ -6,8 +6,10 @@ public class Simulator {
         PopulationParameters parameters =
                 new PopulationParameters
                         .ParametersBuilder()
-                        .setFemalesNumber(5)
-                        .setMalesNumber(5)
+                        .setFemalesNumber(15)
+                        .setMalesNumber(10)
+                        .setDeathProbability(0.3)
+                        .setReproductionProbability(0.65)
                         .build();
 
         MonkeyKingdom kingdom = new MonkeyKingdom(parameters);

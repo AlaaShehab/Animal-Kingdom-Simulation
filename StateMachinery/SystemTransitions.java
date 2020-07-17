@@ -4,98 +4,100 @@ import Actions.*;
 import Conditions.AdultCondition;
 import Conditions.ChildHoodCondition;
 import Conditions.MarriageCondition;
+import Population.PopulationParameters;
 
 import java.util.*;
 
 public class SystemTransitions {
     // Transitions are static throughout the entire population.
     private static SystemTransitions instance = null;
-
     // An alternative to using a map is using MultiValueMap.
     private static Map<State.MonkeyState, List<Transition>> transitions;
 
-    public static void getInstance() {
+    public static SystemTransitions getInstance() {
         if (instance == null)
             instance = new SystemTransitions();
+        return instance;
     }
     private SystemTransitions () {
         transitions = new HashMap<>();
-        setupTransitions();
     }
 
-    private void setupTransitions() {
-        setupBornStateTransitions();
-        setupAdultStateTransitions();
-        setupMarriedStateTransitions();
+    public void setupTransitions(PopulationParameters parameters) {
+        setupBornStateTransitions(parameters);
+        setupAdultStateTransitions(parameters);
+        setupMarriedStateTransitions(parameters);
         setupDeadStateTransitions();
     }
 
-    private void setupBornStateTransitions() {
+    private void setupBornStateTransitions(PopulationParameters parameters) {
         List<Transition> stateTransitions = new ArrayList<>();
         stateTransitions.add(new Transition()
                 .setStartState(State.MonkeyState.BORN)
                 .setEndState(State.MonkeyState.BORN)
                 .setAction(Optional.empty())
                 .setCondition(Optional.of(new ChildHoodCondition()))
-                .setProbability(0.5));
+                .setProbability(1-parameters.getDeathProbability()));
         stateTransitions.add(new Transition()
                 .setStartState(State.MonkeyState.BORN)
                 .setEndState(State.MonkeyState.DEAD)
                 .setAction(Optional.of(new RemoveDeadMonkey()))
                 .setCondition(Optional.empty())
-                .setProbability(0.5));
+                .setProbability(parameters.getDeathProbability()));
         stateTransitions.add(new Transition()
                 .setStartState(State.MonkeyState.BORN)
                 .setEndState(State.MonkeyState.ADULT)
                 .setAction(Optional.of(new HandleNewAdultsAddedToSystem()))
                 .setCondition(Optional.of((new AdultCondition())))
-                .setProbability(0.5));
+                .setProbability(1-parameters.getDeathProbability()));
         transitions.put(State.MonkeyState.BORN, stateTransitions);
     }
 
-    private void setupAdultStateTransitions() {
+    private void setupAdultStateTransitions(PopulationParameters parameters) {
         List<Transition> stateTransitions = new ArrayList<>();
         stateTransitions.add(new Transition()
                 .setStartState(State.MonkeyState.ADULT)
                 .setEndState(State.MonkeyState.ADULT)
                 .setAction(Optional.empty())
-                .setCondition(Optional.empty())
-                .setProbability(0.25));
+                .setCondition(Optional.of(new AdultCondition()))
+                .setProbability((1 - parameters.getDeathProbability())/2));
         stateTransitions.add(new Transition()
                 .setStartState(State.MonkeyState.ADULT)
                 .setEndState(State.MonkeyState.DEAD)
                 .setAction(Optional.of(new RemoveDeadMonkey()))
                 .setCondition(Optional.empty())
-                .setProbability(0.5));
+                .setProbability(parameters.getDeathProbability()));
         stateTransitions.add(new Transition()
                 .setStartState(State.MonkeyState.ADULT)
                 .setEndState(State.MonkeyState.MARRIED)
                 .setAction(Optional.of(new HandleMonkeyMarriage()))
                 .setCondition(Optional.of(new MarriageCondition()))
-                .setProbability(0.25));
+                .setProbability((1 - parameters.getDeathProbability())/2));
         transitions.put(State.MonkeyState.ADULT, stateTransitions);
     }
 
-    private void setupMarriedStateTransitions() {
+    private void setupMarriedStateTransitions(PopulationParameters parameters) {
         List<Transition> stateTransitions = new ArrayList<>();
         stateTransitions.add(new Transition()
                 .setStartState(State.MonkeyState.MARRIED)
                 .setEndState(State.MonkeyState.MARRIED)
                 .setAction(Optional.empty())
                 .setCondition(Optional.empty())
-                .setProbability(0.25));
+                .setProbability(1
+                        - parameters.getDeathProbability()
+                        - parameters.getReproductionProbability()));
         stateTransitions.add(new Transition()
                 .setStartState(State.MonkeyState.MARRIED)
                 .setEndState(State.MonkeyState.DEAD)
                 .setAction(Optional.of(new RemoveDeadMonkey()))
                 .setCondition(Optional.empty())
-                .setProbability(0.5));
+                .setProbability(parameters.getDeathProbability()));
         stateTransitions.add(new Transition()
                 .setStartState(State.MonkeyState.MARRIED)
                 .setEndState(State.MonkeyState.MARRIED)
                 .setAction(Optional.of(new AddNewbornToKingdom()))
                 .setCondition(Optional.empty())
-                .setProbability(0.25));
+                .setProbability(parameters.getReproductionProbability()));
         transitions.put(State.MonkeyState.MARRIED, stateTransitions);
     }
 
@@ -127,27 +129,6 @@ public class SystemTransitions {
 
         stateTransitions.add(transition);
         transitions.put(state, stateTransitions);
-    }
-
-    // Update a transition by changing its action, condition,
-    // its probability or a combination of these parameters.
-    public static void updateTransition
-            (State.MonkeyState startState,
-             State.MonkeyState endState, Transition transition) {
-        List<Transition> stateTransitions =
-                transitions.containsKey(startState)
-                        ? transitions.get(startState)
-                        : new ArrayList<>();
-        if (stateTransitions.isEmpty()) return;
-
-        for (Transition trans : stateTransitions) {
-            if (trans.getEndState() == endState) {
-                trans.setAction(transition.getAction())
-                        .setCondition(transition.getCondition())
-                        .setProbability(transition.getProbability());
-                return;
-            }
-        }
     }
 
     // Update the probability of a transition.

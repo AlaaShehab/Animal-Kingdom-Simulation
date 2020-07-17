@@ -3,16 +3,11 @@ package Population;
 public class PopulationParameters {
     private int femalesNumber;
     private int malesNumber;
-    private double deathProbability = 0.5;
-    private double reproductionProbability = 0.5;
-    // Frequency parameters are used when using
-    // a real simulation timer
-    private int yearFrequencyInDays = 10;
-    private int dayFrequencyInSeconds = 1;
-
-    // Alters the number of steps to transition
-    // from Bron to Adult state.
-    private int adulthoodTimeInYears = 1;
+    private double deathProbability;
+    private double reproductionProbability;
+    private int yearFrequencyInDays;
+    private int dayFrequencyInSeconds;
+    private int adulthoodTimeInYears;
 
     private PopulationParameters(ParametersBuilder builder) {
         this.femalesNumber = builder.femalesNumber;
@@ -21,6 +16,7 @@ public class PopulationParameters {
         this.yearFrequencyInDays = builder.yearFrequencyInDays;
         this.deathProbability = builder.deathProbability;
         this.reproductionProbability = builder.reproductionProbability;
+        this.adulthoodTimeInYears = builder.adulthoodTimeInYears;
     }
     public int getFemalesNumber() {
         return femalesNumber;
@@ -53,11 +49,16 @@ public class PopulationParameters {
     public static class ParametersBuilder {
         private int femalesNumber;
         private int malesNumber;
-        private double deathProbability;
-        private double reproductionProbability;
-        private int yearFrequencyInDays;
-        private int dayFrequencyInSeconds;
-        private int adulthoodTimeInYears;
+        private double deathProbability = 0.5;
+        private double reproductionProbability = 0.5;
+        // Frequency parameters are used when using
+        // a real simulation timer
+        private int yearFrequencyInDays = 10;
+        private int dayFrequencyInSeconds = 1;
+
+        // Alters the number of steps to transition
+        // from Bron to Adult state.
+        private int adulthoodTimeInYears = 1;
 
         public ParametersBuilder setFemalesNumber(int femalesNumber) {
             this.femalesNumber = femalesNumber;

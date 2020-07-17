@@ -2,6 +2,7 @@ package Actions;
 
 import StateMachinery.MonkeyKingdom;
 import Population.Monkey;
+import StateMachinery.State;
 import Utils.Gender;
 
 import java.util.Optional;
@@ -18,6 +19,7 @@ public class HandleMonkeyMarriage implements Action {
             toBeMarried = kingdom.getAdultMonkey(Gender.FEMALE);
         }
         toBeMarried.ifPresent(
-                monkeyToMarry -> kingdom.removeMonkey(monkeyToMarry));
+                monkeyToMarry -> monkeyToMarry
+                        .updateMonkeyState(State.MonkeyState.DEAD));
     }
 }

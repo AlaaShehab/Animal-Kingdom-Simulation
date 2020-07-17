@@ -12,6 +12,8 @@ public class MonkeyKingdom {
     private Map<Gender, List<Monkey>> adultMonkeys;
     private PopulationParameters parameters;
 
+    private SystemTransitions systemTransitions;
+
     public MonkeyKingdom (PopulationParameters parameters) {
         this.parameters = parameters;
         monkeys = new ArrayList<>();
@@ -20,27 +22,10 @@ public class MonkeyKingdom {
         adultMonkeys.put(Gender.MALE, new ArrayList<>());
 
         // Setup the static system transitions.
-        SystemTransitions.getInstance();
-
-        // Update the system transitions with the new
-        // probabilities defined in PopulationParameters.
-        updateSystemTransitions();
+        systemTransitions = SystemTransitions.getInstance();
+        systemTransitions.setupTransitions(parameters);
 
         generatePopulation();
-    }
-
-    private void updateSystemTransitions() {
-        // Update the death probability.
-        EnumSet.allOf(State.MonkeyState.class)
-                .forEach(startState -> SystemTransitions.updateTransitionProbability(
-                        startState, State.MonkeyState.DEAD,
-                        parameters.getDeathProbability()));
-
-        // Update reproduction probability.
-        SystemTransitions.updateTransitionProbability(
-                State.MonkeyState.MARRIED, State.MonkeyState.MARRIED,
-                parameters.getReproductionProbability());
-
     }
 
     private void generatePopulation() {
@@ -55,8 +40,8 @@ public class MonkeyKingdom {
 
     public int runSimulation (int yearsToRunSimulation) {
         for (int year = 0; year < yearsToRunSimulation; year++) {
-            //TODO handle removing from list while looping (ConcurrentModification)
-            for (Monkey monkey : monkeys) {
+            List<Monkey> immutableMonkeys = new ArrayList<>(monkeys);
+            for (Monkey monkey : immutableMonkeys) {
                 List<Transition> transitions = SystemTransitions
                         .getAllPossibleStates(monkey.getMonkeyState());
                 Optional<Transition> transition = pickTransition(transitions, monkey);
@@ -84,7 +69,7 @@ public class MonkeyKingdom {
         for (int i = 0; i < transitions.size(); i++) {
             Optional<Condition> condition = transitions.get(i).getCondition();
             if (condition.isPresent()
-                    && condition.get().isConditionMet(this, monkey)){
+                    && !condition.get().isConditionMet(this, monkey)){
                 transitions.remove(i--);
             }
         }
@@ -132,5 +117,10 @@ public class MonkeyKingdom {
 
     public PopulationParameters getParameters () {
         return parameters;
+    }
+
+    public void updatePopulationParameters (PopulationParameters parameters) {
+        this.parameters = parameters;
+        systemTransitions.setupTransitions(parameters);
     }
 }
