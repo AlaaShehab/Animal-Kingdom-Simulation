@@ -5,11 +5,13 @@ public class PopulationParameters {
     private int malesNumber;
     private double deathProbability = 0.5;
     private double reproductionProbability = 0.5;
-    // TODO write comment explaining when should these
-    // parameters be used
+    // Frequency parameters are used when using
+    // a real simulation timer
     private int yearFrequencyInDays = 10;
     private int dayFrequencyInSeconds = 1;
 
+    // Alters the number of steps to transition
+    // from Bron to Adult state.
     private int adulthoodTimeInYears = 1;
 
     private PopulationParameters(ParametersBuilder builder) {

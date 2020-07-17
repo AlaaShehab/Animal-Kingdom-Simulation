@@ -4,10 +4,7 @@ import Population.Monkey;
 import Population.PopulationParameters;
 import Utils.Gender;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MonkeyKingdom {
     private List<Monkey> monkeys;
@@ -22,7 +19,22 @@ public class MonkeyKingdom {
         adultMonkeys.put(Gender.MALE, new ArrayList<>());
         
         SystemTransitions.getInstance();
+        updateSystemTransitions();
         generatePopulation();
+    }
+
+    private void updateSystemTransitions() {
+        // Update the death probability.
+        EnumSet.allOf(State.MonkeyState.class)
+                .forEach(startState -> SystemTransitions.updateTransitionProbability(
+                        startState, State.MonkeyState.DEAD,
+                        parameters.getDeathProbability()));
+
+        // Update reproduction probability.
+        SystemTransitions.updateTransitionProbability(
+                State.MonkeyState.MARRIED, State.MonkeyState.MARRIED,
+                parameters.getReproductionProbability());
+
     }
 
     private void generatePopulation() {
@@ -104,5 +116,9 @@ public class MonkeyKingdom {
 
     public boolean isAdultListEmpty (Gender gender) {
         return adultMonkeys.get(gender).isEmpty();
+    }
+
+    public PopulationParameters getParameters () {
+        return parameters;
     }
 }

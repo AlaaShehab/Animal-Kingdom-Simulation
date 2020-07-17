@@ -32,7 +32,6 @@ public class SystemTransitions {
         setupDeadStateTransitions();
     }
 
-    //TODO handle change of probability
     private void setupBornStateTransitions() {
         List<Transition> stateTransitions = new ArrayList<>();
         stateTransitions.add(new Transition()
@@ -120,6 +119,7 @@ public class SystemTransitions {
         return stateTransitions;
     }
 
+    // Add a new transition to the system.
     public static void addTransition (State.MonkeyState state, Transition transition) {
         List<Transition> stateTransitions =
                 transitions.containsKey(state)
@@ -127,10 +127,49 @@ public class SystemTransitions {
                         : new ArrayList<>();
 
         stateTransitions.add(transition);
-        //TODO ensure it gets updated
         transitions.put(state, stateTransitions);
     }
 
+    // Update a transition by changing its action, condition,
+    // its probability or a combination of these parameters.
+    public static void updateTransition
+            (State.MonkeyState startState,
+             State.MonkeyState endState, Transition transition) {
+        List<Transition> stateTransitions =
+                transitions.containsKey(startState)
+                        ? transitions.get(startState)
+                        : new ArrayList<>();
+        if (stateTransitions.isEmpty()) return;
+
+        for (Transition trans : stateTransitions) {
+            if (trans.getEndState() == endState) {
+                trans.setAction(transition.getAction())
+                        .setCondition(transition.getCondition())
+                        .setProbability(transition.getProbability());
+                return;
+            }
+        }
+    }
+
+    // Update the probability of a transition.
+    public static void updateTransitionProbability
+            (State.MonkeyState startState,
+             State.MonkeyState endState, double probability) {
+        List<Transition> stateTransitions =
+                transitions.containsKey(startState)
+                        ? transitions.get(startState)
+                        : new ArrayList<>();
+        if (stateTransitions.isEmpty()) return;
+
+        for (Transition trans : stateTransitions) {
+            if (trans.getEndState() == endState) {
+                trans.setProbability(probability);
+                return;
+            }
+        }
+    }
+
+    // Remove a system transition.
     public static void removeTransition (State.MonkeyState state, Transition transition) {
         List<Transition> stateTransitions =
                 transitions.containsKey(state)
