@@ -1,7 +1,4 @@
-package Population;
-
-import StateMachinery.State;
-import Utils.Gender;
+package main.Population;
 
 public class Monkey {
     private State state;

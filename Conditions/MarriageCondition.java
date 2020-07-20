@@ -1,7 +1,7 @@
 package Conditions;
-import StateMachinery.MonkeyKingdom;
-import Population.Monkey;
-import Utils.Gender;
+import main.StateMachinery.MonkeyKingdom;
+import main.Population.Monkey;
+import main.Utils.Gender;
 
 public class MarriageCondition implements Condition {
     @Override

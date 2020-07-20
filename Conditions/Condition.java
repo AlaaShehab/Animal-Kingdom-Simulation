@@ -1,7 +1,7 @@
 package Conditions;
 
-import StateMachinery.MonkeyKingdom;
-import Population.Monkey;
+import main.StateMachinery.MonkeyKingdom;
+import main.Population.Monkey;
 
 public interface Condition {
     boolean isConditionMet(MonkeyKingdom kingdom, Monkey monkey);

@@ -1,8 +1,8 @@
 package Conditions;
 
-import Population.Monkey;
-import StateMachinery.MonkeyKingdom;
-import StateMachinery.State;
+import main.Population.Monkey;
+import main.StateMachinery.MonkeyKingdom;
+import main.StateMachinery.State;
 
 public class ChildHoodCondition implements Condition {
     @Override

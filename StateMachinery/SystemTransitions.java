@@ -1,10 +1,10 @@
-package StateMachinery;
+package main.StateMachinery;
 
 import Actions.*;
 import Conditions.AdultCondition;
 import Conditions.ChildHoodCondition;
 import Conditions.MarriageCondition;
-import Population.PopulationParameters;
+import main.Population.PopulationParameters;
 
 import java.util.*;
 
@@ -40,16 +40,16 @@ public class SystemTransitions {
                 .setProbability(1-parameters.getDeathProbability()));
         stateTransitions.add(new Transition()
                 .setStartState(State.MonkeyState.BORN)
-                .setEndState(State.MonkeyState.DEAD)
-                .setAction(Optional.of(new RemoveDeadMonkey()))
-                .setCondition(Optional.empty())
-                .setProbability(parameters.getDeathProbability()));
-        stateTransitions.add(new Transition()
-                .setStartState(State.MonkeyState.BORN)
                 .setEndState(State.MonkeyState.ADULT)
                 .setAction(Optional.of(new HandleNewAdultsAddedToSystem()))
                 .setCondition(Optional.of((new AdultCondition())))
                 .setProbability(1-parameters.getDeathProbability()));
+        stateTransitions.add(new Transition()
+                .setStartState(State.MonkeyState.BORN)
+                .setEndState(State.MonkeyState.DEAD)
+                .setAction(Optional.of(new RemoveDeadMonkey()))
+                .setCondition(Optional.empty())
+                .setProbability(parameters.getDeathProbability()));
         transitions.put(State.MonkeyState.BORN, stateTransitions);
     }
 
@@ -63,16 +63,16 @@ public class SystemTransitions {
                 .setProbability((1 - parameters.getDeathProbability())/2));
         stateTransitions.add(new Transition()
                 .setStartState(State.MonkeyState.ADULT)
-                .setEndState(State.MonkeyState.DEAD)
-                .setAction(Optional.of(new RemoveDeadMonkey()))
-                .setCondition(Optional.empty())
-                .setProbability(parameters.getDeathProbability()));
-        stateTransitions.add(new Transition()
-                .setStartState(State.MonkeyState.ADULT)
                 .setEndState(State.MonkeyState.MARRIED)
                 .setAction(Optional.of(new HandleMonkeyMarriage()))
                 .setCondition(Optional.of(new MarriageCondition()))
                 .setProbability((1 - parameters.getDeathProbability())/2));
+        stateTransitions.add(new Transition()
+                .setStartState(State.MonkeyState.ADULT)
+                .setEndState(State.MonkeyState.DEAD)
+                .setAction(Optional.of(new RemoveDeadMonkey()))
+                .setCondition(Optional.empty())
+                .setProbability(parameters.getDeathProbability()));
         transitions.put(State.MonkeyState.ADULT, stateTransitions);
     }
 
@@ -88,16 +88,16 @@ public class SystemTransitions {
                         - parameters.getReproductionProbability()));
         stateTransitions.add(new Transition()
                 .setStartState(State.MonkeyState.MARRIED)
-                .setEndState(State.MonkeyState.DEAD)
-                .setAction(Optional.of(new RemoveDeadMonkey()))
-                .setCondition(Optional.empty())
-                .setProbability(parameters.getDeathProbability()));
-        stateTransitions.add(new Transition()
-                .setStartState(State.MonkeyState.MARRIED)
                 .setEndState(State.MonkeyState.MARRIED)
                 .setAction(Optional.of(new AddNewbornToKingdom()))
                 .setCondition(Optional.empty())
                 .setProbability(parameters.getReproductionProbability()));
+        stateTransitions.add(new Transition()
+                .setStartState(State.MonkeyState.MARRIED)
+                .setEndState(State.MonkeyState.DEAD)
+                .setAction(Optional.of(new RemoveDeadMonkey()))
+                .setCondition(Optional.empty())
+                .setProbability(parameters.getDeathProbability()));
         transitions.put(State.MonkeyState.MARRIED, stateTransitions);
     }
 
@@ -106,7 +106,7 @@ public class SystemTransitions {
         stateTransitions.add(new Transition()
                 .setStartState(State.MonkeyState.DEAD)
                 .setEndState(State.MonkeyState.DEAD)
-                .setAction(Optional.empty())
+                .setAction(Optional.of(new RemoveDeadMonkey()))
                 .setCondition(Optional.empty())
                 .setProbability(1.0));
         transitions.put(State.MonkeyState.DEAD, stateTransitions);

@@ -1,9 +1,9 @@
 package Actions;
 
-import StateMachinery.MonkeyKingdom;
-import Population.Monkey;
-import StateMachinery.State;
-import Utils.Gender;
+import main.StateMachinery.MonkeyKingdom;
+import main.Population.Monkey;
+import main.StateMachinery.State;
+import main.Utils.Gender;
 
 import java.util.Optional;
 
@@ -19,7 +19,12 @@ public class HandleMonkeyMarriage implements Action {
             toBeMarried = kingdom.getAdultMonkey(Gender.FEMALE);
         }
         toBeMarried.ifPresent(
-                monkeyToMarry -> monkeyToMarry
-                        .updateMonkeyState(State.MonkeyState.DEAD));
+                monkeyToMarry -> {
+                    monkeyToMarry
+                        .updateMonkeyState(State.MonkeyState.DEAD);
+                    kingdom.removeAdultMonkey(monkeyToMarry, monkeyToMarry.getGender());
+                    kingdom.removeAdultMonkey(monkey, monkey.getGender());
+                    monkey.setGender(Gender.MARRIED);
+                });
     }
 }

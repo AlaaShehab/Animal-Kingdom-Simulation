@@ -1,7 +1,7 @@
 package Actions;
 
-import StateMachinery.MonkeyKingdom;
-import Population.Monkey;
+import main.StateMachinery.MonkeyKingdom;
+import main.Population.Monkey;
 
 public interface Action {
     void execute(MonkeyKingdom kingdom, Monkey monkey);

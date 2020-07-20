@@ -1,4 +1,4 @@
-package StateMachinery;
+package main.StateMachinery;
 
 public class State {
     public enum MonkeyState {

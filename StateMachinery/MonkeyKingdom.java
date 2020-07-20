@@ -1,9 +1,10 @@
-package StateMachinery;
+package main.StateMachinery;
 
 import Conditions.Condition;
-import Population.Monkey;
-import Population.PopulationParameters;
-import Utils.Gender;
+import main.Population.Monkey;
+import main.Population.PopulationParameters;
+import main.Statistics.Statistics;
+import main.Utils.Gender;
 
 import java.util.*;
 
@@ -13,6 +14,7 @@ public class MonkeyKingdom {
     private PopulationParameters parameters;
 
     private SystemTransitions systemTransitions;
+    private Statistics statistics;
 
     public MonkeyKingdom (PopulationParameters parameters) {
         this.parameters = parameters;
@@ -20,6 +22,8 @@ public class MonkeyKingdom {
         adultMonkeys = new HashMap<>();
         adultMonkeys.put(Gender.FEMALE, new ArrayList<>());
         adultMonkeys.put(Gender.MALE, new ArrayList<>());
+
+        statistics = new Statistics();
 
         // Setup the static system transitions.
         systemTransitions = SystemTransitions.getInstance();
@@ -52,7 +56,9 @@ public class MonkeyKingdom {
                     );
                 });
             }
+            statistics.calculateStatistics(immutableMonkeys, year);
         }
+        statistics.writeStatsToFile();
         return calculatePopulation();
     }
 

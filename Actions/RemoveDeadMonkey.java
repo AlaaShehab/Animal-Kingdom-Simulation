@@ -1,7 +1,7 @@
 package Actions;
 
-import StateMachinery.MonkeyKingdom;
-import Population.Monkey;
+import main.StateMachinery.MonkeyKingdom;
+import main.Population.Monkey;
 
 // Remove monkeys, that transition into Dead state,
 // from the system.

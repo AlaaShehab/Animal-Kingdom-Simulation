@@ -1,4 +1,4 @@
-package Population;
+package main.Population;
 
 public class PopulationParameters {
     private int femalesNumber;

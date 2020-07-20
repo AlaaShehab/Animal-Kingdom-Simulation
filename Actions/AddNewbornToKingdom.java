@@ -1,8 +1,8 @@
 package Actions;
 
-import StateMachinery.MonkeyKingdom;
-import Population.Monkey;
-import Utils.Utils;
+import main.StateMachinery.MonkeyKingdom;
+import main.Population.Monkey;
+import main.Utils.Utils;
 
 // Handles adding a newborn to the system
 // which resulted from a married monkey

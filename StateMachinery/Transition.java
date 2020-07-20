@@ -1,4 +1,4 @@
-package StateMachinery;
+package main.StateMachinery;
 
 import Actions.Action;
 import Conditions.Condition;

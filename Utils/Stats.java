@@ -1,13 +1,17 @@
 package main.Utils;
 
-public enum Gender {
-    MALE(0),
-    FEMALE(1),
-    MARRIED(2);
+public enum Stats {
+    TOTAL(0),
+    MALE(1),
+    FEMALE(2),
+    NEWBORN(3),
+    MARRIED(4),
+    DEAD(5);
+
 
     private int value;
 
-    Gender(int value) {
+    Stats(int value) {
         this.value = value;
     }
 
