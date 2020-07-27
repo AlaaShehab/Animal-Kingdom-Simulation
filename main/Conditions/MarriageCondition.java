@@ -1,4 +1,4 @@
-package Conditions;
+package main.Conditions;
 import main.StateMachinery.MonkeyKingdom;
 import main.Population.Monkey;
 import main.Utils.Gender;

@@ -1,7 +1,7 @@
 package main.StateMachinery;
 
-import Actions.Action;
-import Conditions.Condition;
+import main.Actions.Action;
+import main.Conditions.Condition;
 
 import java.util.Optional;
 

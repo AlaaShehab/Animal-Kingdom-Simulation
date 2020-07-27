@@ -8,6 +8,7 @@ public class PopulationParameters {
     private int yearFrequencyInDays;
     private int dayFrequencyInSeconds;
     private int adulthoodTimeInYears;
+    private int maxChildrenPerMonkey;
 
     private PopulationParameters(ParametersBuilder builder) {
         this.femalesNumber = builder.femalesNumber;
@@ -17,6 +18,7 @@ public class PopulationParameters {
         this.deathProbability = builder.deathProbability;
         this.reproductionProbability = builder.reproductionProbability;
         this.adulthoodTimeInYears = builder.adulthoodTimeInYears;
+        this.maxChildrenPerMonkey = builder.maxChildrenPerMonkey;
     }
     public int getFemalesNumber() {
         return femalesNumber;
@@ -46,6 +48,26 @@ public class PopulationParameters {
         return adulthoodTimeInYears;
     }
 
+    public int getMaxChildrenPerMonkey() {
+        return maxChildrenPerMonkey;
+    }
+
+    public void updateDeathProbability(double deathProbability) {
+        this.deathProbability = deathProbability;
+    }
+
+    public void updateReproductionProbability(double reproductionProbability) {
+        this.reproductionProbability = reproductionProbability;
+    }
+
+    public void updateMaxChildrenPerMonkey(int maxChildrenPerMonkey) {
+        this.maxChildrenPerMonkey = maxChildrenPerMonkey;
+    }
+
+    public void updateAudltHoodTime(int adulthoodTimeInYears) {
+        this.adulthoodTimeInYears = adulthoodTimeInYears;
+    }
+
     public static class ParametersBuilder {
         private int femalesNumber;
         private int malesNumber;
@@ -59,6 +81,8 @@ public class PopulationParameters {
         // Alters the number of steps to transition
         // from Bron to Adult state.
         private int adulthoodTimeInYears = 1;
+
+        private int maxChildrenPerMonkey = 5;
 
         public ParametersBuilder setFemalesNumber(int femalesNumber) {
             this.femalesNumber = femalesNumber;
@@ -92,6 +116,11 @@ public class PopulationParameters {
 
         public ParametersBuilder setAdulthoodTimeInYears(int adulthoodTimeInYears) {
             this.adulthoodTimeInYears = adulthoodTimeInYears;
+            return this;
+        }
+
+        public ParametersBuilder setMaxChildrenPerMonkey (int maxChildrenPerMonkey) {
+            this.maxChildrenPerMonkey = maxChildrenPerMonkey;
             return this;
         }
 

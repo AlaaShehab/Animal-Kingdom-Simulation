@@ -1,3 +1,5 @@
+package main;
+
 import main.Population.PopulationParameters;
 import main.StateMachinery.MonkeyKingdom;
 
@@ -6,13 +8,14 @@ public class Simulator {
         PopulationParameters parameters =
                 new PopulationParameters
                         .ParametersBuilder()
-                        .setFemalesNumber(50)
-                        .setMalesNumber(50)
+                        .setFemalesNumber(20)
+                        .setMalesNumber(20)
                         .setDeathProbability(0.1)
-                        .setReproductionProbability(0.8)
+                        .setReproductionProbability(0.65)
+                        .setMaxChildrenPerMonkey(10000)
                         .build();
 
         MonkeyKingdom kingdom = new MonkeyKingdom(parameters);
-        System.out.println(kingdom.runSimulation(50));
+        System.out.println(kingdom.runSimulation(500));
     }
 }

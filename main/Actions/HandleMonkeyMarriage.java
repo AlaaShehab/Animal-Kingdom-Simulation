@@ -1,4 +1,4 @@
-package Actions;
+package main.Actions;
 
 import main.StateMachinery.MonkeyKingdom;
 import main.Population.Monkey;

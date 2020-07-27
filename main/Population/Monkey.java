@@ -1,9 +1,13 @@
 package main.Population;
 
+import main.StateMachinery.State;
+import main.Utils.Gender;
+
 public class Monkey {
+    private static int MAX_CHILDREN = 1;
     private State state;
     private Gender gender;
-
+    private int childrenCount;
     // It represents the current age of the monkey.
     // Required for Bron to Adult transition.
     private int age;
@@ -16,7 +20,15 @@ public class Monkey {
     }
     public void updateMonkeyState (State.MonkeyState stateValue) {
         state.setStateValue(stateValue);
-        age++;
+        setAge(age + 1);
+    }
+
+    public void setAge (int age) {
+        this.age = age;
+    }
+
+    public void setMonkeyState (State.MonkeyState stateValue) {
+        state.setStateValue(stateValue);
     }
 
     public State.MonkeyState getMonkeyState() {
@@ -34,5 +46,17 @@ public class Monkey {
 
     public int getAge() {
         return age;
+    }
+
+    public void increaseChildrenCount() {
+        childrenCount++;
+    }
+
+    public boolean canHaveChildren() {
+       return childrenCount < MAX_CHILDREN;
+    }
+
+    public void setMaxChildren(int maxChildren) {
+        MAX_CHILDREN = maxChildren;
     }
 }
